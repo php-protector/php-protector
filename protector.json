@@ -1,0 +1,83 @@
+{
+    "enabled"            : true,
+    "welcome"            : false,
+    "timezone"           : "Europe/Minsk",
+    "log"                : "/var/log/php-protector/php-protector.log",
+
+    "onDeny"             : "/access/denied/page.html",
+    "onAllow"            : false,
+
+    "rules": [
+        {
+            "name"       : "log",
+            "actions"    : ["log"]
+        },
+        {
+            "name"       : "blacklist",
+            "type"       : "ip4",
+            "file"       : "blacklist.txt",
+            "actions"    : ["log", "deny"]
+        },
+        {
+            "name"       : "whitelist",
+            "type"       : "ip4",
+            "file"       : "whitelist.txt",
+            "actions"    : ["log", "allow"]
+        },
+        {
+            "name"       : "block-the-chrome",
+            "type"       : "user-agent",
+            "data"       : "Chrome",
+            "actions"    : ["log", "deny"]
+        },
+        {
+            "name"       : "block-from-18-to-8-hours",
+            "type"       : "time",
+            "data"       : { "start": 18, "stop": 8 },
+            "actions"    : ["log", "deny"]
+        },
+        {
+            "name"       : "allow-special-locations",
+            "type"       : "location",
+            "data"       : [
+                { "country": "AT", "region": "9" },
+                { "country": "NL", "region": "NH" }
+            ],
+            "actions"    : ["log", "allow"]
+        },
+        {
+            "name"       : "block-secret-page",
+            "type"       : "uri",
+            "data"       : "secret/page.html",
+            "actions"    : ["log", "deny"]
+        },
+        {
+            "name"       : "redirect-to-codeby",
+            "type"       : "time",
+            "data"       : { "start": 8, "stop": 18 },
+            "url"        : "https://codeby.net/",
+            "comment"    : "redirect to https://codeby.net/",
+            "actions"    : ["log", "redirect"]
+        },
+        {
+            "enabled"    : false,
+            "name"       : "allow-disabled",
+            "actions"    : ["log", "allow"]
+        },
+        {
+            "enabled"    : true,
+            "name"       : "deny-enabled",
+            "actions"    : ["log", "deny"]
+        },
+        {
+            "enabled"    : false,
+            "name"       : "default-disabled",
+            "actions"    : ["log", "default"]
+        },
+        {
+            "enabled"    : false,
+            "name"       : "exit-disabled",
+            "actions"    : ["log", "exit"]
+        }
+    ]
+}
